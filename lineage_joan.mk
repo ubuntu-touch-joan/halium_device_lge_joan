@@ -2,12 +2,15 @@
 $(call inherit-product-if-exists, vendor/lge/joan/joan-vendor.mk)
 
 # Inherit some common Lineage stuff.
-$(call inherit-product, vendor/lineage/config/common_full_phone.mk)
+#$(call inherit-product, vendor/lineage/config/common_full_phone.mk)
 
 # Inherit from those products. Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
-$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
-$(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
+#$(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
+#$(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
+
+# Halium
+$(call inherit-product, $(SRC_TARGET_DIR)/product/halium.mk)
 
 # Device identifiers
 PRODUCT_DEVICE := joan
@@ -175,7 +178,7 @@ PRODUCT_PACKAGES += \
 	qcom.fmradio \
 	qcom.fmradio.xml
 
-PRODUCT_BOOT_JARS += qcom.fmradio
+# PRODUCT_BOOT_JARS += qcom.fmradio
 
 # Gatekeeper HAL
 PRODUCT_PACKAGES += \
@@ -372,8 +375,8 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     telephony-ext
 
-PRODUCT_BOOT_JARS += \
-    telephony-ext
+# PRODUCT_BOOT_JARS += \
+#    telephony-ext
 
 # Tethering
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -439,3 +442,32 @@ PRODUCT_PACKAGES += \
     wificond \
     wpa_supplicant \
     wpa_supplicant.conf
+
+#Ubuntu Touch Needed
+MINIMEDIA_SENSORSERVER_DISABLE := 1
+
+PRODUCT_PACKAGES += \
+    libmedia_omx \
+    android.frameworks.displayservice@1.0
+
+PRODUCT_PACKAGES += \
+    libion \
+    libmedia_compat_layer \
+    libsf_compat_layer \
+    libui_compat_layer
+
+# SalifishOS droidmedia
+PRODUCT_PACKAGES += \
+    libdroidmedia \
+    minimediaservice \
+    minisfservice \
+    miniafservice
+
+# Ubuntu
+PRODUCT_PACKAGES += \
+    libbiometry_fp_api \
+    libubuntu_application_api
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/ubports/70-clover.rules:system/halium/lib/udev/rules.d/70-android.rules \
+    $(LOCAL_PATH)/ubports/scaling.conf:system/ubuntu/etc/ubuntu-touch-session.d/android.conf
+
